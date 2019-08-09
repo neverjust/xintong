@@ -43,6 +43,22 @@ class Student extends Controller
         $this->problemPicModel = new problemPicModel();
         $this->email = new Email();
     }
+    function update()
+    {
+        if (!isset($_SESSION['student']))
+            return msg('',3001,'用户未登录');
+        $data = json_decode(file_get_contents('php://input'),true);
+        $args = array('email','name','tel');
+        if (judgeEmpty($data, $args))
+            return msg('',3002,'参数不完全');
+        $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
+        $student['email'] = $data['email'];
+        $student['name'] = $data['name'];
+        $student['tel'] = $data['tel'];
+        $student->save();
+        require msg('',2000,'');;
+
+    }
     
     function getTypes()
     {
