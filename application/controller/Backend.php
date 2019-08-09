@@ -92,6 +92,9 @@ class Backend extends Controller
     function getTypes()
     {
         $types = $this->typeModel->select();
+        foreach ($types as $type) {
+            $type['teacher'] = $this->teacherModel->find($type['teacher_id']);
+        }
         return msg($types,2000,'');
     }
     function delType()
