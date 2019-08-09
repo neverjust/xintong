@@ -61,6 +61,9 @@
 studentId       |string        |学号
 password       |string        |密码
 code |string |wx_code
+name |string |姓名
+email |string |邮箱
+tel |string |电话
 ### 返回结果
 ```json  
 {

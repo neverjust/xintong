@@ -60,7 +60,7 @@ class Authenticate extends Controller
     function student()
     {
         $data = json_decode(file_get_contents('php://input'),true);
-        $args = array('studentId','password','code','name','email');
+        $args = array('studentId','password','tel','code','name','email');
         if(judgeEmpty($data, $args))
             return msg($data,3002,'参数不完全');
         if ($data['studentId']=="student"&&$data['password']=="123456") {
@@ -68,6 +68,7 @@ class Authenticate extends Controller
             $newStudent = model('Student');
             $newStudent->name = $data['name'];
             $newStudent->email = $data['email'];
+            $newStudent->tel = $data['tel'];
             $newStudent->openid = $openid;
             $newStudent->save();
             $_SESSION['student']=$openid;
