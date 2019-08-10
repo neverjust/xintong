@@ -74,7 +74,8 @@ class Student extends Controller
     public function test()
     {
         $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
-        return msg($student,2000,'');
+        $problems = $this->problemModel->where('student_id',$student['id'])->order("time desc")->select();
+        return msg($problems,2000,'');
     }
 
 
@@ -117,7 +118,7 @@ class Student extends Controller
         if (!isset($_SESSION['student']))
             return msg('',3001,'用户未登录');
         $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
-        $problems = $this->problemModel->where('student_id',$student['id'])->order("timestamp desc")->select();
+        $problems = $this->problemModel->where('student_id',$student['id'])->order("time desc")->select();
         return msg($problems,2000,'');
     }
 
