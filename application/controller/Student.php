@@ -73,9 +73,7 @@ class Student extends Controller
 
     public function test()
     {
-        $data = json_decode(file_get_contents('php://input'),true);
-        return $data['pictures'][0];
-        return msg($data['pictures'][0],2000,'');
+        return msg($_SESSION['student'],2000,'');
     }
 
 
