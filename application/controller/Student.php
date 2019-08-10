@@ -71,14 +71,6 @@ class Student extends Controller
         return msg($teahcers,2000,'');
     }
 
-    public function test()
-    {
-        $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
-        $problems = $this->problemModel->where('student_id',$student['id'])->order("time desc")->select();
-        return msg($problems,2000,'');
-    }
-
-
     function newProblem()
     {
         if (!isset($_SESSION['student']))
