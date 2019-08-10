@@ -87,10 +87,6 @@ class Student extends Controller
         $args = array('type','title','content','pictures');
         if (judgeEmpty($data, $args))
             return msg('',3002,'参数不完全');
-        $_SESSION['student'] = "123";
-        $paths = savePictures($data['pictures']);
-        if (!$paths)
-            return msg('',3004,'保存图片出错');
         $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
         $type = $this->typeModel->find($data['type']);
         $newProblem = model('Problem');
@@ -102,12 +98,17 @@ class Student extends Controller
         $newProblem->save();
         $teacher = $this->teacherModel->where('id',$type['teacher_id'])->find();
         $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
-        foreach ($paths as $picpath) {
-            $newPic['problem_id'] = $newProblem->id;
-            $newPic['path'] = $picpath;
-            $add[]=$newPic;
+        if ($data['pictures']!="") {
+            $paths = savePictures($data['pictures']);
+            if (!$paths)
+                return msg('',3004,'保存图片出错');
+            foreach ($paths as $picpath) {
+                $newPic['problem_id'] = $newProblem->id;
+                $newPic['path'] = $picpath;
+                $add[]=$newPic;
+            }
+            $this->problemPicModel->saveAll($add);
         }
-        $this->problemPicModel->saveAll($add);
         return msg('',2000,'');
     }
 
@@ -164,14 +165,16 @@ class Student extends Controller
         $newDialogue->save();
         $problem['timestamp']  = $newDialogue->timestamp;
         $problem->save();
-        $paths = savePictures($data['pictures']);
-        $this->email->send($teacher['email'],$student['name'],"有消息回复","student");
-        foreach ($paths as $picpath) {
-            $newPic['dialogue_id'] = $newDialogue->id;
-            $newPic['path'] = $picpath;
-            $add[]=$newPic;
+        if ($paths!="") {
+            $paths = savePictures($data['pictures']);
+            $this->email->send($teacher['email'],$student['name'],"有消息回复","student");
+            foreach ($paths as $picpath) {
+                $newPic['dialogue_id'] = $newDialogue->id;
+                $newPic['path'] = $picpath;
+                $add[]=$newPic;
+            }
+            $this->dialoguePicModel->saveAll($add);
         }
-        $this->dialoguePicModel->saveAll($add);
         return msg('',2000,'');
     }
 

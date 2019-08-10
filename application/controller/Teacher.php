@@ -96,15 +96,17 @@ class Teacher extends Controller
         $newDialogue->save();
         $problem['timestamp']  = $newDialogue->timestamp;
         $problem->save();
-        $paths = savePictures($data['pictures']);
-        if (isset($student['email'])) 
-            $this->email->send($student['email'],$teacher['name'],"有新消息回复","请到小程序上查看详情");
-        foreach ($paths as $picpath) {
-            $newPic['dialogue_id'] = $newDialogue->id;
-            $newPic['path'] = $picpath;
-            $add[]=$newPic;
+        if($data['pictures']!=""){
+            $paths = savePictures($data['pictures']);
+            if (isset($student['email'])) 
+                $this->email->send($student['email'],$teacher['name'],"有新消息回复","请到小程序上查看详情");
+            foreach ($paths as $picpath) {
+                $newPic['dialogue_id'] = $newDialogue->id;
+                $newPic['path'] = $picpath;
+                $add[]=$newPic;
+            }
+            $this->dialoguePicModel->saveAll($add);
         }
-        $this->dialoguePicModel->saveAll($add);
         return msg('s',2000,'');
     }
 
