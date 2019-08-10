@@ -58,11 +58,15 @@ class Teacher extends Controller
         if(judgeEmpty($data, $args))
             return msg($_POST,3002,'参数不完全');
         $problem = $this->problemModel->where('id',$data['problem_id'])->find();
+        $problem['student'] = $this->studentModel->find($problem['student_id']);
+        $problem['teacher'] = $this->teacherModel->find($problem['teacher_id']);
         $problem['pictures'] = $this->problemPicModel->where('id',$data['problem_id'])->select();
         $result['problem'] = $problem;
         $result['dialogues'] = $this->dialogueModel->where('problem_id',$problem['id'])->select();
         foreach ($result['dialogues'] as $dialogue) {
-            $dialogue['pictures'] = $this->dialoguePicModel->where('id',$dialogue['id'])->select();
+            $dialogue['student'] = $this->studentModel->find($dialogue['student_id']);
+            $dialogue['teacher'] = $this->teacherModel->find($dialogue['teacher_id']);
+            $dialogue['pictures'] = $this->dialoguePicModel->where('dialogu_id',$dialogue['id'])->select();
         }
         return msg($result,2000,'');
     }
