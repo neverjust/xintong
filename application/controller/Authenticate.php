@@ -98,7 +98,7 @@ class Authenticate extends Controller
         $args = array('email','code');
         if(judgeEmpty($data, $args))
             return msg('',3002,'参数不完全');
-        $teacher = $this->teacherModel->where('email',$email)->find();
+        $teacher = $this->teacherModel->where('email',$data['email'])->find();
         if (!$teacher) {
             return msg('',2005,"查无此教师");
         }

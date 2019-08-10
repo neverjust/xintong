@@ -229,7 +229,7 @@ tel |string |电话
 
 | 字段     |        |              |
 | -------- | ------ | ------------ |
-| tpye     | int    | 问题类型的id |
+| type     | int    | 问题类型的id |
 | title    | string | 问题标题     |
 | content  | string | 问题内容     |
 | pictures | array  | 图片的数组   |
