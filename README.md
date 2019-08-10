@@ -227,12 +227,12 @@ tel |string |电话
 
 ### 请求参数
 
-| 字段     | 字段类型 | 字段说明     |
-| -------- | -------- | ------------ |
-| stu_id   | int      | 问题类型的id |
-| title    | string   | 问题标题     |
-| content  | string   | 问题内容     |
-| pictures | array    | 图片的数组   |
+| 字段     |        |              |
+| -------- | ------ | ------------ |
+| tpye     | int    | 问题类型的id |
+| title    | string | 问题标题     |
+| content  | string | 问题内容     |
+| pictures | array  | 图片的数组   |
 
 ### 返回结果
 
