@@ -73,7 +73,8 @@ class Student extends Controller
 
     public function test()
     {
-        return msg($_SESSION['student'],2000,'');
+        $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
+        return msg($student,2000,'');
     }
 
 
