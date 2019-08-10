@@ -123,6 +123,8 @@ class Teacher extends Controller
 
     function end()
     {
+        if (!isset($_SESSION['teacher']))
+            return msg('',3001,'用户未登录');
         $data = json_decode(file_get_contents('php://input'),true);
         $args = array('problem_id');
         if(judgeEmpty($data, $args))

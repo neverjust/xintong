@@ -121,5 +121,17 @@ class Authenticate extends Controller
         }
         require msg('',3002,'参数不完全');
     }
+    
+    function end()
+    {
+        $data = json_decode(file_get_contents('php://input'),true);
+        $args = array('problem_id');
+        if(judgeEmpty($data, $args))
+            return msg($_POST,3002,'参数不完全');
+        $problem = $this->problemModel->where('id',$data['problem_id'])->find();
+        $problem['status'] = 0;
+        $problem->save();
+        return msg('',2000,'');
+    }
 
 }
