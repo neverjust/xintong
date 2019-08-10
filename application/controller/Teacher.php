@@ -21,6 +21,7 @@ use app\model\Problem as problemModel;
 use app\model\Teacher as teacherModel;
 use app\model\Student as studentModel;
 use app\model\Type as typeModel;
+use app\model\Dialogue as dialogueModel;
 use app\model\DialoguePic as dialoguePicModel;
 use app\model\ProblemPic as problemPicModel;
 use app\model\Email as Email;
@@ -35,6 +36,7 @@ class Teacher extends Controller
         $this->teacherModel = new teacherModel();
         $this->studentModel = new studentModel();
         $this->typeModel = new typeModel();
+        $this->dialogueModel = new dialogueModel();
         $this->dialoguePicModel = new dialoguePicModel();
         $this->problemPicModel = new problemPicModel();
         $this->email = new Email();
@@ -45,7 +47,7 @@ class Teacher extends Controller
         if (!isset($_SESSION['teacher']))
             return msg('',3001,'用户未登录');
         $teacher = $this->teacherModel->where('openid',$_SESSION['teacher'])->find();
-        $problems = $this->problemModel->where('teacher_id',$teacher['id'])->select();
+        $problems = $this->problemModel->where('teacher_id',$teacher['id'])->order("timestamp desc")->select();
         return msg($problems,2000,'');
     }
 
@@ -88,7 +90,8 @@ class Teacher extends Controller
         $newDialogue->teacher_id = $teacher['id'];
         $newDialogue->dialogue_from = 1;
         $newDialogue->save();
-
+        $problem['timestamp']  = $newDialogue->timestamp;
+        $problem->save();
         $paths = savePictures($data['pictures']);
         if (isset($student['email'])) 
             $this->email->send($student['email'],$teacher['name'],"有新消息回复","请到小程序上查看详情");

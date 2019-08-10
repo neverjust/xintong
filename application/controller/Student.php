@@ -114,7 +114,10 @@ class Student extends Controller
 
     function getProblems()
     {
-        $problems = $this->problemModel->select();
+        if (!isset($_SESSION['student']))
+            return msg('',3001,'用户未登录');
+        $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
+        $problems = $this->problemModel->where('student_id',$student['id'])->order("timestamp desc")->select();
         return msg($problems,2000,'');
     }
 
@@ -155,6 +158,8 @@ class Student extends Controller
         $newDialogue->teacher_id = $teacher['id'];
         $newDialogue->dialogue_from = 0;
         $newDialogue->save();
+        $problem['timestamp']  = $newDialogue->timestamp;
+        $problem->save();
         $paths = savePictures($data['pictures']);
         $this->email->send($teacher['email'],$student['name'],"有消息回复","student");
         foreach ($paths as $picpath) {

@@ -43,7 +43,7 @@ class Backend extends Controller
 
     function getProblems()
     {
-        $problems = $this->problemModel->select();
+        $problems = $this->problemModel->order("timestamp desc")->select();
         return msg($problems,2000,'');
     }
 
