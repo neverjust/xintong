@@ -41,7 +41,6 @@ class Backend extends Controller
         $this->dialogueModel = new dialogueModel();
         $this->dialoguePicModel = new dialoguePicModel();
         $this->problemPicModel = new problemPicModel();
-        $this->email = new Email();    
     }
     function getStudents()
     {
