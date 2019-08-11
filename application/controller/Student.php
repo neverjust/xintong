@@ -73,6 +73,7 @@ class Student extends Controller
 
     public function test()
     {
+        $data = json_decode(file_get_contents('php://input'),true);
         return msg(empty($data['pictures']),2000,'');
     }
 
