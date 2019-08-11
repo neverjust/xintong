@@ -138,7 +138,7 @@ class Student extends Controller
         foreach ($result['dialogues'] as $dialogue) {
             $dialogue['student'] = $this->studentModel->find($dialogue['student_id']);
             $dialogue['teacher'] = $this->teacherModel->find($dialogue['teacher_id']);
-            $dialogue['pictures'] = $this->dialoguePicModel->where('dialogu_id',$dialogue['id'])->select();
+            $dialogue['pictures'] = $this->dialoguePicModel->where('dialogue_id',$dialogue['id'])->select();
         }
         return msg($result,2000,'');
     }
