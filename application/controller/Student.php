@@ -96,8 +96,7 @@ class Student extends Controller
         $newProblem->save();
         $teacher = $this->teacherModel->where('id',$type['teacher_id'])->find();
         $emailResult = $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
-        return msg(empty($data['pictures']),2000,'');
-        if (empty($data['pictures'])) {
+        if (!empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
             if (!$paths)
                 return msg('',3004,'保存图片出错');
