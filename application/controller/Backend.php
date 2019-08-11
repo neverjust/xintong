@@ -67,7 +67,7 @@ class Backend extends Controller
         foreach ($result['dialogues'] as $dialogue) {
             $dialogue['pictures'] = $this->dialoguePicModel->where('id',$dialogue['id'])->select();
         }
-        require msg($result,2000,'');
+        return msg($result,2000,'');
     }
 
     function newType()
