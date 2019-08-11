@@ -96,10 +96,8 @@ class Student extends Controller
         $newProblem->teacher_id = $type['teacher_id'];
         $newProblem->save();
         $teacher = $this->teacherModel->where('id',$type['teacher_id'])->find();
-        $result = 1;
         $emailResult = $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
         if (!empty($data['pictures'])) {
-            $result = 2;
             $paths = savePictures($data['pictures']);
             if (!$paths)
                 return msg('',3004,'保存图片出错');
@@ -108,9 +106,9 @@ class Student extends Controller
                 $newPic['path'] = $picpath;
                 $add[]=$newPic;
             }
-            $this->problemPicModel->saveAll($add);
+            $result = $this->problemPicModel->saveAll($add);
         }
-        return msg($result,2000,'');
+        return msg("",2000,'');
     }
 
 
@@ -166,7 +164,7 @@ class Student extends Controller
         $newDialogue->save();
         $problem['timestamp']  = $newDialogue->timestamp;
         $problem->save();
-        if ($paths!="") {
+        if (!empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
             $this->email->send($teacher['email'],$student['name'],"有消息回复","student");
             foreach ($paths as $picpath) {

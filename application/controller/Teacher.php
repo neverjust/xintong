@@ -96,7 +96,7 @@ class Teacher extends Controller
         $newDialogue->save();
         $problem['timestamp']  = $newDialogue->timestamp;
         $problem->save();
-        if($data['pictures']!=""){
+        if(!empty($data['pictures']){
             $paths = savePictures($data['pictures']);
             if (isset($student['email'])) 
                 $this->email->send($student['email'],$teacher['name'],"有新消息回复","请到小程序上查看详情");
