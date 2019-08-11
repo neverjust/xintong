@@ -49,11 +49,12 @@ class Backend extends Controller
 
     function getProblem()
     {
+        $data = json_decode(file_get_contents('php://input'),true);
         $args = array('problem_id');
-        if(judgeEmpty($_POST, $args))
-            return msg($_POST,3002,'参数不完全');
-        $problem = $this->problemModel->where('id',$_POST['problem_id'])->find();
-        $problem['pictures'] = $this->problemPicModel->where('id',$_POST['problem_id'])->select();
+        if(judgeEmpty($data, $args))
+            return msg("",3002,'参数不完全');
+        $problem = $this->problemModel->where('id',$data['problem_id'])->find();
+        $problem['pictures'] = $this->problemPicModel->where('id',$data['problem_id'])->select();
         $result['problem'] = $problem;
         $result['dialogues'] = $this->dialogueModel->where('problem_id',$problem['id'])->select();
         foreach ($result['dialogues'] as $dialogue) {
