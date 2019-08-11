@@ -62,9 +62,13 @@ class Backend extends Controller
             return msg("",3002,'参数不完全');
         $problem = $this->problemModel->where('id',$data['problem_id'])->find();
         $problem['pictures'] = $this->problemPicModel->where('id',$data['problem_id'])->select();
+        $problem['student'] = $this->studentModel->find($problem['student_id']);
+        $problem['teacher'] = $this->teacherModel->find($problem['teacher_id']);
         $result['problem'] = $problem;
         $result['dialogues'] = $this->dialogueModel->where('problem_id',$problem['id'])->select();
         foreach ($result['dialogues'] as $dialogue) {
+            $dialogue['student'] = $this->studentModel->find($dialogue['student_id']);
+            $dialogue['teacher'] = $this->teacherModel->find($dialogue['teacher_id']);
             $dialogue['pictures'] = $this->dialoguePicModel->where('id',$dialogue['id'])->select();
         }
         return msg($result,2000,'');
