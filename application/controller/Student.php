@@ -162,7 +162,7 @@ class Student extends Controller
         $newDialogue->teacher_id = $teacher['id'];
         $newDialogue->dialogue_from = 0;
         $newDialogue->save();
-        $problem['timestamp']  = $newDialogue->timestamp;
+        $problem['timestamp']  = date("Y-m-d H:i:s",time());
         $problem->save();
         if (!empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
