@@ -96,7 +96,6 @@ class Student extends Controller
         $newProblem->teacher_id = $type['teacher_id'];
         $newProblem->save();
         $teacher = $this->teacherModel->where('id',$type['teacher_id'])->find();
-        $emailResult = $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
         if (!empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
             if (!$paths)
@@ -108,6 +107,7 @@ class Student extends Controller
             }
             $result = $this->problemPicModel->saveAll($add);
         }
+        $emailResult = $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
         return msg("",2000,'');
     }
 
@@ -166,7 +166,6 @@ class Student extends Controller
         $problem->save();
         if (!empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
-            $this->email->send($teacher['email'],$student['name'],"有消息回复","student");
             foreach ($paths as $picpath) {
                 $newPic['dialogue_id'] = $newDialogue->id;
                 $newPic['path'] = $picpath;
@@ -174,6 +173,7 @@ class Student extends Controller
             }
             $this->dialoguePicModel->saveAll($add);
         }
+        $this->email->send($teacher['email'],$student['name'],"有消息回复","student");
         return msg('',2000,'');
     }
 

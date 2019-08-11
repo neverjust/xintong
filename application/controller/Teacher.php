@@ -98,8 +98,6 @@ class Teacher extends Controller
         $problem->save();
         if(!empty($data['pictures'])){
             $paths = savePictures($data['pictures']);
-            if (isset($student['email'])) 
-                $this->email->send($student['email'],$teacher['name'],"有新消息回复","请到小程序上查看详情");
             foreach ($paths as $picpath) {
                 $newPic['dialogue_id'] = $newDialogue->id;
                 $newPic['path'] = $picpath;
@@ -107,6 +105,8 @@ class Teacher extends Controller
             }
             $this->dialoguePicModel->saveAll($add);
         }
+        if (isset($student['email'])) 
+            $this->email->send($student['email'],$teacher['name'],"有新消息回复","请到小程序上查看详情");
         return msg('s',2000,'');
     }
 
