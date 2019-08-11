@@ -19,6 +19,10 @@ use app\model\Problem as problemModel;
 use app\model\Teacher as teacherModel;
 use app\model\Student as studentModel;
 use app\model\Type as typeModel;
+use app\model\Dialogue as dialogueModel;
+use app\model\DialoguePic as dialoguePicModel;
+use app\model\ProblemPic as problemPicModel;
+
 use think\Controller;
 use think\Loader;
 use Ldap;
@@ -34,6 +38,10 @@ class Backend extends Controller
         $this->teacherModel = new teacherModel();
         $this->studentModel = new studentModel();
         $this->typeModel = new typeModel();
+        $this->dialogueModel = new dialogueModel();
+        $this->dialoguePicModel = new dialoguePicModel();
+        $this->problemPicModel = new problemPicModel();
+        $this->email = new Email();    
     }
     function getStudents()
     {
