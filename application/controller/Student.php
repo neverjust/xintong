@@ -71,6 +71,14 @@ class Student extends Controller
         return msg($teahcers,2000,'');
     }
 
+    public function test()
+    {
+        $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
+        $problems = $this->problemModel->where('student_id',$student['id'])->order("time desc")->select();
+        return msg($student,2000,'');
+    }
+
+
     function newProblem()
     {
         if (!isset($_SESSION['student']))
@@ -89,8 +97,8 @@ class Student extends Controller
         $newProblem->teacher_id = $type['teacher_id'];
         $newProblem->save();
         $teacher = $this->teacherModel->where('id',$type['teacher_id'])->find();
-        $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
-        if ($data['pictures']!="") {
+        $emailResult = $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
+        if (empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
             if (!$paths)
                 return msg('',3004,'保存图片出错');
