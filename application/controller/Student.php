@@ -73,9 +73,7 @@ class Student extends Controller
 
     public function test()
     {
-        $student = $this->studentModel->where('openid',$_SESSION['student'])->find();
-        $problems = $this->problemModel->where('student_id',$student['id'])->order("time desc")->select();
-        return msg($student,2000,'');
+        return msg(empty($data['pictures']),2000,'');
     }
 
 
@@ -98,6 +96,7 @@ class Student extends Controller
         $newProblem->save();
         $teacher = $this->teacherModel->where('id',$type['teacher_id'])->find();
         $emailResult = $this->email->send($teacher['email'],$student['name'],$data['title'],"student");
+        return msg(empty($data['pictures']),2000,'');
         if (empty($data['pictures'])) {
             $paths = savePictures($data['pictures']);
             if (!$paths)

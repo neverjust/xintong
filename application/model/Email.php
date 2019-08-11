@@ -30,7 +30,7 @@ class Email extends Model
             $mail->isHTML(false);                                  // Set email format to HTML
             $mail->Subject = $title;                          // 设置发送的邮件标题
             $mail->Body    = $content;                            // 设置邮件发送内容
-            return $mail->send();
+            $mail->send();
         } catch (Exception $e) {
             exception($mail->ErrorInfo,1001);                 // 失败抛出错误信息
         }
