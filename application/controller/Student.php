@@ -132,7 +132,7 @@ class Student extends Controller
         $problem = $this->problemModel->where('id',$data['problem_id'])->find();
         $problem['student'] = $this->studentModel->find($problem['student_id']);
         $problem['teacher'] = $this->teacherModel->find($problem['teacher_id']);
-        $problem['pictures'] = $this->problemPicModel->where('id',$data['problem_id'])->select();
+        $problem['pictures'] = $this->problemPicModel->where('problem_id',$data['problem_id'])->select();
         $result['problem'] = $problem;
         $result['dialogues'] = $this->dialogueModel->where('problem_id',$problem['id'])->select();
         foreach ($result['dialogues'] as $dialogue) {
