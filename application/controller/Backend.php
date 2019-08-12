@@ -61,7 +61,7 @@ class Backend extends Controller
         if(judgeEmpty($data, $args))
             return msg("",3002,'参数不完全');
         $problem = $this->problemModel->where('id',$data['problem_id'])->find();
-        $problem['pictures'] = $this->problemPicModel->where('id',$data['problem_id'])->select();
+        $problem['pictures'] = $this->problemPicModel->where('problem_id',$data['problem_id'])->select();
         $problem['student'] = $this->studentModel->find($problem['student_id']);
         $problem['teacher'] = $this->teacherModel->find($problem['teacher_id']);
         $result['problem'] = $problem;
